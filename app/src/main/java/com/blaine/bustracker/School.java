@@ -10,11 +10,11 @@ import java.util.ArrayList;
  */
 public class School implements Parcelable {
 
-	private int mID;
-	private String mName;
-	private int mNumRows;
-	private ArrayList<String> mRowNames;
-	private int mDefaultRow;
+	private final int mID;
+	private final String mName;
+	private final int mNumRows;
+	private final ArrayList<String> mRowNames;
+	private final int mDefaultRow;
 
 	public School(int id, String name, int numRows, ArrayList<String> rowNames, int defaultRow) {
 		mID = id;

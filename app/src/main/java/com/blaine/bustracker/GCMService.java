@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -21,8 +20,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class GCMService extends IntentService {
-	// Sets an ID for the notification, so it can be updated
-	public static final int NOTIFY_ID = 82696;
+	private static final int NOTIFY_ID = 82696;
 	private LocalBroadcastManager mLocalBroadcastManager;
 
 	public GCMService() {
@@ -100,7 +98,7 @@ public class GCMService extends IntentService {
 		final Notification.Builder notifyBuilder = new Notification.Builder(this)
 				.setContentTitle(String.format(getString(R.string.notification_title), busNumber))
 				.setContentText(String.format(getString(R.string.notification_detail), busRowName, busPosition))
-				.setSmallIcon(R.drawable.ic_directions_bus_black_48dp)
+				.setSmallIcon(R.drawable.ic_directions_bus_white_48dp)
 				.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.launcher));
 
 		notifyBuilder.setDefaults(Notification.DEFAULT_ALL);

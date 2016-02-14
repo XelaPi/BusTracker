@@ -8,8 +8,8 @@ import android.os.Parcelable;
  */
 public class Bus implements Parcelable {
 
-	private int mRow;
-	private String mNumber;
+	private final int mRow;
+	private final String mNumber;
 
 	public Bus(int row, String number) {
 		mRow = row;

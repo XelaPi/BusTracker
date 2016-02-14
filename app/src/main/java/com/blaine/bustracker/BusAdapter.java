@@ -12,13 +12,13 @@ import java.util.HashSet;
 /**
  * @author Alex Vanyo
  */
-public class BusAdapter extends ArrayAdapter<Bus> {
+class BusAdapter extends ArrayAdapter<Bus> {
 
-	private ArrayList<Integer> mCorrectedPositions;
+	private final ArrayList<Integer> mCorrectedPositions;
 	private int mLargestRow;
-	private School mSchool;
+	private final School mSchool;
 
-	private Context mContext;
+	private final Context mContext;
 
 	public BusAdapter(Context context, School school) {
 		super(context, R.layout.bus_holder);

@@ -20,10 +20,6 @@ public class BusHolder extends LinearLayout implements Checkable {
 		super(context, attrs);
 	}
 
-	public boolean isFavoriteBus() {
-		return mIsFavoriteBus;
-	}
-
 	@Override
 	public boolean isChecked() {
 		return mChecked;
@@ -51,7 +47,7 @@ public class BusHolder extends LinearLayout implements Checkable {
 		if (isChecked()) {
 			mergeDrawableStates(drawableState, CHECKED_STATE_SET);
 		}
-		if (isFavoriteBus()) {
+		if (mIsFavoriteBus) {
 			mergeDrawableStates(drawableState, FAVORITE_BUS_STATE_SET);
 		}
 		return drawableState;

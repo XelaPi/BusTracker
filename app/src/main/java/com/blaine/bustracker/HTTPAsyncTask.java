@@ -17,11 +17,11 @@ import java.util.Map;
 /**
  * @author Alex Vanyo
  */
-public class HTTPAsyncTask extends AsyncTask<String, Void, Boolean> {
+class HTTPAsyncTask extends AsyncTask<String, Void, Boolean> {
 
-	private Resources mResources;
-	private String mUrl;
-	private String mMethod;
+	private final Resources mResources;
+	private final String mUrl;
+	private final String mMethod;
 
 	public HTTPAsyncTask(Resources resources, String url, String method) {
 		mResources = resources;
@@ -29,7 +29,7 @@ public class HTTPAsyncTask extends AsyncTask<String, Void, Boolean> {
 		mMethod = method;
 	}
 
-	protected void onSuccessInBackground(JSONObject jsonObject) throws JSONException {
+	void onSuccessInBackground(JSONObject jsonObject) throws JSONException {
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class HTTPAsyncTask extends AsyncTask<String, Void, Boolean> {
 		return false;
 	}
 
-	public JSONObject makeHttpRequest(Map<String, String> params) {
+	private JSONObject makeHttpRequest(Map<String, String> params) {
 
 		InputStream is = null;
 		JSONObject jObj = null;
