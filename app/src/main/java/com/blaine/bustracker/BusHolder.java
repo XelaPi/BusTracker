@@ -6,6 +6,8 @@ import android.widget.Checkable;
 import android.widget.LinearLayout;
 
 /**
+ * View class for a bus, as provided by BusAdapter
+ *
  * @author Alex Vanyo
  */
 public class BusHolder extends LinearLayout implements Checkable {

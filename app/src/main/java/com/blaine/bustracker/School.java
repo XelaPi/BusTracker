@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 /**
+ * Parcelable wrapper class for a school
+ *
  * @author Alex Vanyo
  */
 public class School implements Parcelable {
@@ -40,6 +42,7 @@ public class School implements Parcelable {
 		return mRowNames;
 	}
 
+	// TODO: Remove default row
 	public int getDefaultRow() {
 		return mDefaultRow;
 	}

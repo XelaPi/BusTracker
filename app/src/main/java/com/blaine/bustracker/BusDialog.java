@@ -12,6 +12,11 @@ import android.widget.Toast;
 
 import java.util.HashSet;
 
+/**
+ * Popup dialog displaying device information and options for it
+ *
+ * @author Alex Vanyo
+ */
 public class BusDialog extends Activity {
 
 	private Bus mBus;
@@ -30,10 +35,12 @@ public class BusDialog extends Activity {
 
 		((TextView) findViewById(R.id.bus_number)).setText(String.format(getResources().getString(R.string.bus_number_format), mBus.getNumber()));
 
+		// Hide "Remove" option if not in administrator mode
 		if (!getSharedPreferences(getString(R.string.shared_pref_user), Context.MODE_PRIVATE).getString(String.format(getString(R.string.pref_password), mSchool.getID()), "").isEmpty()) {
 			findViewById(R.id.remove_bus).setVisibility(View.VISIBLE);
 		}
 
+		// Update favorites button based on status
 		if ((getSharedPreferences(getString(R.string.shared_pref_user), Context.MODE_PRIVATE).getStringSet(String.format(getString(R.string.pref_favorite_bus), mSchool.getID()), new HashSet<String>())).contains(mBus.getNumber())) {
 			((Button) findViewById(R.id.toggle_favorite_bus)).setText(R.string.remove_favorite_bus);
 		}

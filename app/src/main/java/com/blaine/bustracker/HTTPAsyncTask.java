@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Utility class to submit an HTTP request
+ *
  * @author Alex Vanyo
  */
 class HTTPAsyncTask extends AsyncTask<String, Void, Boolean> {
@@ -23,12 +25,23 @@ class HTTPAsyncTask extends AsyncTask<String, Void, Boolean> {
 	private final String mUrl;
 	private final String mMethod;
 
+	/**
+	 *
+	 * @param resources Resource object to call getString
+	 * @param url Url extension for specific request
+	 * @param method HTTP method, ex. "POST", "GET"
+	 */
 	public HTTPAsyncTask(Resources resources, String url, String method) {
 		mResources = resources;
 		mUrl = url;
 		mMethod = method;
 	}
 
+	/**
+	 * Optional override by subclass, will be called on a successful HTTP request
+	 * @param jsonObject Returned JSON from HTTP request
+	 * @throws JSONException
+	 */
 	void onSuccessInBackground(JSONObject jsonObject) throws JSONException {
 	}
 
@@ -53,6 +66,11 @@ class HTTPAsyncTask extends AsyncTask<String, Void, Boolean> {
 		return false;
 	}
 
+	/**
+	 * Utility method to make an HTTP request
+	 * @param params Map of Key/Value pairs
+	 * @return JSONObject
+	 */
 	private JSONObject makeHttpRequest(Map<String, String> params) {
 
 		InputStream is = null;

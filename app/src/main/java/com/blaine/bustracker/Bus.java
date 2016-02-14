@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
+ * Parcelable wrapper class for a bus
+ *
  * @author Alex Vanyo
  */
 public class Bus implements Parcelable {
@@ -11,6 +13,11 @@ public class Bus implements Parcelable {
 	private final int mRow;
 	private final String mNumber;
 
+	/**
+	 *
+	 * @param row Bus's row, zero-indexed integer
+	 * @param number Bus number as a String
+	 */
 	public Bus(int row, String number) {
 		mRow = row;
 		mNumber = number;

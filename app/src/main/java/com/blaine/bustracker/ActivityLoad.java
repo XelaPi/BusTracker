@@ -53,6 +53,7 @@ public class ActivityLoad extends ListActivity {
 							if (mGCM == null) {
 								mGCM = GoogleCloudMessaging.getInstance(mApplicationContext);
 							}
+							// TODO: Update deprecated method
 							arguments[1] = mGCM.register(getString(R.string.google_project_id));
 
 						} catch (IOException ex) {

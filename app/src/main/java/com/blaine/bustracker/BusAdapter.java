@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
+ * Custom adapter to display Buses
+ * Array of buses are stored in ArrayAdapter, called by super methods
+ * Custom implementation marks corrected position
+ *
  * @author Alex Vanyo
  */
 class BusAdapter extends ArrayAdapter<Bus> {
@@ -99,7 +103,11 @@ class BusAdapter extends ArrayAdapter<Bus> {
 		return busHolder;
 	}
 
-	public void refreshRowPositions() {
+	/**
+	 * Refreshes corrected positions of buses
+	 * Loops over buses, and links position in super to position in GridView
+	 */
+	private void refreshRowPositions() {
 		int[] rowCounts = new int[getColumns()];
 		mCorrectedPositions.clear();
 		for (int i = 0; i < super.getCount(); i++) {

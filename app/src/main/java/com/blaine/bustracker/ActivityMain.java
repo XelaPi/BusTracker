@@ -13,7 +13,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Launcher activity, shows bus rows
+ * Activity to display a school's rows and buses
+ * Must be passed an Intent with School extra
+ * Can be passed an Intent with Bus extra to search for bus on load
  *
  * @author Alex Vanyo
  */
@@ -24,7 +26,7 @@ public class ActivityMain extends Activity implements SharedPreferences.OnShared
 	private GridView mBusGridView;
 	private LinearLayout mAddBusLayout;
 
-	private BroadcastReceiver mBroadcastReceiver;
+	private BroadcastReceiver mBusUpdateReceiver;
 
 	private School mSchool;
 
@@ -56,6 +58,9 @@ public class ActivityMain extends Activity implements SharedPreferences.OnShared
 
 		LinearLayout rowLabelLayout = (LinearLayout) this.findViewById(R.id.row_label_layout);
 		mAddBusLayout = (LinearLayout) this.findViewById(R.id.add_bus_layout);
+
+		// Add row labels and add bus sections for each row in school
+		// TODO: Hide row label layout if schools has only one row
 		for (final String rowName : mSchool.getRowNames()) {
 			TextView rowLabel = (TextView) getLayoutInflater().inflate(R.layout.row_label, rowLabelLayout, false);
 			rowLabel.setText(rowName);
@@ -84,10 +89,13 @@ public class ActivityMain extends Activity implements SharedPreferences.OnShared
 					inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
 					if (busNumberField.getText().length() == 0) {
+						// Check if add bus is empty
 						Toast.makeText(ActivityMain.this, R.string.empty_bus_number, Toast.LENGTH_SHORT).show();
 					} else if (mBusAdapter.searchForBus(busNumberField.getText().toString()) >= 0) {
+						// Check if bus already exists
 						Toast.makeText(ActivityMain.this, R.string.duplicate_bus_number, Toast.LENGTH_SHORT).show();
 					} else {
+						// Make HTTP request to add bus
 						addBus.setEnabled(false);
 
 						new HTTPAsyncTask(getResources(), getString(R.string.url_add_bus), "POST") {
@@ -112,13 +120,14 @@ public class ActivityMain extends Activity implements SharedPreferences.OnShared
 			});
 			mAddBusLayout.addView(addBusView);
 		}
+		// Hide layout if not in administrator mode
 		mAddBusLayout.setVisibility(getSharedPreferences(getString(R.string.shared_pref_user), Context.MODE_PRIVATE).getString(String.format(getString(R.string.pref_password), mSchool.getID()), "").isEmpty() ? View.GONE : View.VISIBLE);
 
 		mBusGridView = (GridView) this.findViewById(R.id.buses_grid_view);
 		mBusGridView.setNumColumns(mSchool.getNumRows());
 		mBusGridView.setAdapter(mBusAdapter);
 
-		mBroadcastReceiver = new BroadcastReceiver() {
+		mBusUpdateReceiver = new BroadcastReceiver() {
 	        @Override
 	        public void onReceive(Context context, Intent intent) {
 		        int schoolID = Integer.parseInt(intent.getStringExtra(getString(R.string.key_school_id)));
@@ -153,6 +162,8 @@ public class ActivityMain extends Activity implements SharedPreferences.OnShared
 	        }
 	    };
 
+		// Initial HTTP request to get buses
+		// TODO: Add loading screen/spinner
 		new HTTPAsyncTask(getResources(), getString(R.string.url_get_buses), "POST") {
 			@Override
 			protected void onSuccessInBackground(JSONObject jsonObject) throws JSONException {
@@ -182,7 +193,7 @@ public class ActivityMain extends Activity implements SharedPreferences.OnShared
 			}
 		}.execute(getString(R.string.key_school_id), String.valueOf(mSchool.getID()));
 
-		LocalBroadcastManager.getInstance(this).registerReceiver((mBroadcastReceiver),
+		LocalBroadcastManager.getInstance(this).registerReceiver((mBusUpdateReceiver),
 				new IntentFilter(getString(R.string.intent_message))
 		);
 	}
@@ -197,7 +208,7 @@ public class ActivityMain extends Activity implements SharedPreferences.OnShared
 
 	@Override
 	protected void onDestroy() {
-	    LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
+	    LocalBroadcastManager.getInstance(this).unregisterReceiver(mBusUpdateReceiver);
 	    super.onDestroy();
 	}
 
@@ -211,7 +222,8 @@ public class ActivityMain extends Activity implements SharedPreferences.OnShared
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
-	        case R.id.action_settings:
+		    // Launch login activity
+	        case R.id.action_login:
 		        Intent intent = new Intent(this, ActivityLogin.class);
 		        intent.putExtra(getString(R.string.key_school_id), mSchool.getID());
 		        startActivity(intent);
@@ -222,9 +234,8 @@ public class ActivityMain extends Activity implements SharedPreferences.OnShared
 	}
 
 	public void searchForBus(View view) {
-		InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-		inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		// Hide keyboard from search
+		((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
 		int position = mBusAdapter.searchForBus(searchField.getText().toString());
 
