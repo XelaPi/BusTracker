@@ -63,6 +63,7 @@
 	<string name="key_remove_all_buses">remove_all_buses</string>
 
 	<string name="key_schools">schools</string>
+	<string name="key_reg_id">reg_id</string>
 	<string name="key_school_id">_id</string>
 	<string name="key_name">name</string>
 	<string name="key_rows">rows</string>
