@@ -65,7 +65,7 @@
 		</activity>
 
 		<receiver
-				android:name=".GCMBroadcastReceiver"
+				android:name="com.google.android.gms.gcm.GcmReceiver"
 				android:permission="com.google.android.c2dm.permission.SEND">
 
 			<intent-filter>
@@ -75,6 +75,12 @@
 				<category android:name="com.blaine.bustracker"/>
 			</intent-filter>
 		</receiver>
-		<service android:name=".GCMService"/>
+		<service
+				android:name=".GCMService"
+				android:exported="false" >
+			<intent-filter>
+				<action android:name="com.google.android.c2dm.intent.RECEIVE" />
+			</intent-filter>
+		</service>
 	</application>
 </manifest>

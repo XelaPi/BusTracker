@@ -1,6 +1,5 @@
 package com.blaine.bustracker;
 
-import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,7 +9,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.gcm.GcmListenerService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,13 +18,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class GCMService extends IntentService {
+public class GCMService extends GcmListenerService {
 	private static final int NOTIFY_ID = 82696;
 	private LocalBroadcastManager mLocalBroadcastManager;
-
-	public GCMService() {
-		super("GcmIntentService");
-	}
 
 	@Override
 	public void onCreate() {
@@ -35,46 +30,32 @@ public class GCMService extends IntentService {
 	}
 
 	@Override
-	protected void onHandleIntent(Intent intent) {
-		Bundle extras = intent.getExtras();
-		GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
+	public void onMessageReceived(String from, Bundle data) {
+		if (!data.isEmpty()) {
+			String message = String.valueOf(data.get(getString(R.string.key_message)));
 
-		String messageType = gcm.getMessageType(intent);
+			Intent messageIntent = new Intent(getString(R.string.intent_message));
+			messageIntent.putExtra(getString(R.string.key_message), message);
+			messageIntent.putExtra(getString(R.string.key_school_id), String.valueOf(data.get(getString(R.string.key_school_id))));
 
-		if (!extras.isEmpty()) {
+			if (message.equals(getString(R.string.key_add_bus)) || message.equals(getString(R.string.key_remove_bus))) {
+				messageIntent.putExtra(getString(R.string.key_bus_row), String.valueOf(data.get(getString(R.string.key_bus_row))));
+				messageIntent.putExtra(getString(R.string.key_bus_number), String.valueOf(data.get(getString(R.string.key_bus_number))));
 
-			if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
-				//sendNotification("Send error: " + extras.toString());
-			} else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
-				//sendNotification("Deleted messages on server: " + extras.toString());
-			} else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-				//sendNotification("Message Received from Google GCM Server:\n\n" + extras.get(GCMConstants.KEY_BUS_NUMBER));
-
-				String message = String.valueOf(extras.get(getString(R.string.key_message)));
-
-				Intent messageIntent = new Intent(getString(R.string.intent_message));
-				messageIntent.putExtra(getString(R.string.key_message), message);
-				messageIntent.putExtra(getString(R.string.key_school_id), String.valueOf(extras.get(getString(R.string.key_school_id))));
-
-				if (message.equals(getString(R.string.key_add_bus)) || message.equals(getString(R.string.key_remove_bus))) {
-					messageIntent.putExtra(getString(R.string.key_bus_row), String.valueOf(extras.get(getString(R.string.key_bus_row))));
-					messageIntent.putExtra(getString(R.string.key_bus_number), String.valueOf(extras.get(getString(R.string.key_bus_number))));
-
-					if (message.equals(getString(R.string.key_add_bus)) &&
-							getSharedPreferences(getString(R.string.shared_pref_user), Context.MODE_PRIVATE)
-									.getStringSet(String.format(getString(R.string.pref_favorite_bus), String.valueOf(extras.get(getString(R.string.key_school_id)))), new HashSet<String>())
-									.contains(String.valueOf(extras.get(getString(R.string.key_bus_number))))) {
-						sendNotification(String.valueOf(extras.get(getString(R.string.key_school_id))),
-								String.valueOf(extras.get(getString(R.string.key_bus_row_name))),
-								String.valueOf(extras.get(getString(R.string.key_bus_number))),
-								String.valueOf(extras.get(getString(R.string.key_bus_position))));
-					}
+				if (message.equals(getString(R.string.key_add_bus)) &&
+						getSharedPreferences(getString(R.string.shared_pref_user), Context.MODE_PRIVATE)
+								.getStringSet(String.format(getString(R.string.pref_favorite_bus), String.valueOf(data.get(getString(R.string.key_school_id)))), new HashSet<String>())
+								.contains(String.valueOf(data.get(getString(R.string.key_bus_number))))) {
+					sendNotification(String.valueOf(data.get(getString(R.string.key_school_id))),
+							String.valueOf(data.get(getString(R.string.key_bus_row_name))),
+							String.valueOf(data.get(getString(R.string.key_bus_number))),
+							String.valueOf(data.get(getString(R.string.key_bus_position))));
 				}
-
-				mLocalBroadcastManager.sendBroadcast(messageIntent);
 			}
+
+			mLocalBroadcastManager.sendBroadcast(messageIntent);
 		}
-		GCMBroadcastReceiver.completeWakefulIntent(intent);
+		super.onMessageReceived(from, data);
 	}
 
 	private void sendNotification(String schoolID, String busRowName, String busNumber, String busPosition) {
