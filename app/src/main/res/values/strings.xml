@@ -47,6 +47,7 @@
 	<string name="intent_message">com.blaine.bustracker.GCMService.MESSAGE</string>
 
 	<string name="shared_pref_user">shared_pref_user</string>
+	<string name="pref_registered">registered</string>
 	<string name="pref_favorite_bus">favorite_bus_%1$s</string>
 	<string name="pref_password">password_%1$s</string>
 
@@ -62,7 +63,6 @@
 	<string name="key_remove_all_buses">remove_all_buses</string>
 
 	<string name="key_schools">schools</string>
-	<string name="key_reg_id">reg_id</string>
 	<string name="key_school_id">_id</string>
 	<string name="key_name">name</string>
 	<string name="key_rows">rows</string>

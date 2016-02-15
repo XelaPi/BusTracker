@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +27,6 @@ import java.util.ArrayList;
  * @author Alex Vanyo
  */
 public class ActivityLoad extends ListActivity {
-	private GoogleCloudMessaging mGCM;
 	private Context mApplicationContext;
 
 	private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -40,49 +40,6 @@ public class ActivityLoad extends ListActivity {
 		setListAdapter(schoolAdapter);
 
 		mApplicationContext = getApplicationContext();
-
-		SharedPreferences prefs = getSharedPreferences(getString(R.string.shared_pref_user), Context.MODE_PRIVATE);
-		String registrationId = prefs.getString(getString(R.string.key_reg_id), "");
-
-		if (registrationId.isEmpty()) {
-			new HTTPAsyncTask(getResources(), getString(R.string.url_add_reg_id), "POST") {
-				@Override
-				protected Boolean doInBackground(String... arguments) {
-					if (checkPlayServices()) {
-						try {
-							if (mGCM == null) {
-								mGCM = GoogleCloudMessaging.getInstance(mApplicationContext);
-							}
-							// TODO: Update deprecated method
-							arguments[1] = mGCM.register(getString(R.string.google_project_id));
-
-						} catch (IOException ex) {
-							Log.e(this.getClass().getName(), ex.getMessage());
-						}
-
-						if (!arguments[1].isEmpty()) {
-
-							SharedPreferences prefs = getSharedPreferences(getString(R.string.shared_pref_user), Context.MODE_PRIVATE);
-							SharedPreferences.Editor editor = prefs.edit();
-							editor.putString(getString(R.string.key_reg_id), arguments[1]);
-							editor.apply();
-
-							return super.doInBackground(arguments);
-						}
-					}
-					return false;
-				}
-
-				@Override
-				protected void onPostExecute(Boolean success) {
-					if (success) {
-						Toast.makeText(ActivityLoad.this, R.string.registration_success, Toast.LENGTH_SHORT).show();
-					} else {
-						Toast.makeText(ActivityLoad.this, R.string.registration_failed, Toast.LENGTH_SHORT).show();
-					}
-				}
-			}.execute(getString(R.string.key_reg_id), "");
-		}
 
 		new HTTPAsyncTask(getResources(), getString(R.string.url_get_schools), "GET") {
 
@@ -120,6 +77,37 @@ public class ActivityLoad extends ListActivity {
 				}
 			}
 		}.execute();
+
+		final SharedPreferences prefs = getSharedPreferences(getString(R.string.shared_pref_user), Context.MODE_PRIVATE);
+
+		if (prefs.getBoolean(getString(R.string.pref_registered), false) && checkPlayServices()) {
+			new HTTPAsyncTask(getResources(), getString(R.string.url_add_reg_id), "POST") {
+				@Override
+				protected Boolean doInBackground(String... arguments) {
+
+					InstanceID instanceID = InstanceID.getInstance(ActivityLoad.this);
+					try {
+						arguments[1] = instanceID.getToken(getString(R.string.google_project_id), GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+					} catch (IOException e) {
+						Log.e(this.getClass().getName(), e.toString());
+						return false;
+					}
+
+					return super.doInBackground(arguments);
+				}
+
+				@Override
+				protected void onPostExecute(Boolean success) {
+					if (success) {
+						Toast.makeText(ActivityLoad.this, R.string.registration_success, Toast.LENGTH_SHORT).show();
+						prefs.edit().putBoolean(getString(R.string.pref_registered), true).apply();
+					} else {
+						Toast.makeText(ActivityLoad.this, R.string.registration_failed, Toast.LENGTH_SHORT).show();
+						prefs.edit().putBoolean(getString(R.string.pref_registered), false).apply();
+					}
+				}
+			}.execute(getString(R.string.key_reg_id), "");
+		}
 	}
 
 	@Override
