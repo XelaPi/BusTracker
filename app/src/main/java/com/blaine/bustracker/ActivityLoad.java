@@ -80,7 +80,7 @@ public class ActivityLoad extends ListActivity {
 
 		final SharedPreferences prefs = getSharedPreferences(getString(R.string.shared_pref_user), Context.MODE_PRIVATE);
 
-		if (prefs.getBoolean(getString(R.string.pref_registered), false) && checkPlayServices()) {
+		if (!prefs.getBoolean(getString(R.string.pref_registered), false) && checkPlayServices()) {
 			new HTTPAsyncTask(getResources(), getString(R.string.url_add_reg_id), "POST") {
 				@Override
 				protected Boolean doInBackground(String... arguments) {
