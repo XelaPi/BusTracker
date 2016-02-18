@@ -17,6 +17,7 @@ import java.io.IOException;
 public class IIDListenerService extends InstanceIDListenerService {
 	@Override
 	public void onTokenRefresh() {
+		// TODO: copied code from ActivityLoad
 		new HTTPAsyncTask(getResources(), getString(R.string.url_add_reg_id), "POST") {
 			@Override
 			protected Boolean doInBackground(String... arguments) {

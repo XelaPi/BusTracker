@@ -164,7 +164,7 @@ public class ActivityMain extends Activity implements SharedPreferences.OnShared
 
 		// Initial HTTP request to get buses
 		// TODO: Add loading screen/spinner
-		new HTTPAsyncTask(getResources(), getString(R.string.url_get_buses), "POST") {
+		new HTTPAsyncTask(getResources(), getString(R.string.url_get_buses), "GET") {
 			@Override
 			protected void onSuccessInBackground(JSONObject jsonObject) throws JSONException {
 				JSONArray JSONBuses = jsonObject.getJSONArray(getString(R.string.key_buses));
