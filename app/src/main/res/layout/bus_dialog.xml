@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              android:padding="20dp">
+
+	<TextView
+			android:id="@+id/bus_number"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			/>
+
+	<Button
+			android:id="@+id/toggle_favorite_bus"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:onClick="toggleFavorites"
+			android:text="@string/add_favorite_bus"
+			/>
+
+	<Button
+			android:id="@+id/remove_bus"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:onClick="remove"
+			android:text="@string/remove"
+			android:visibility="gone"
+			/>
+
+	<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:onClick="close"
+			android:text="@string/close"
+			/>
+
+</LinearLayout>
