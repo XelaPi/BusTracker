@@ -30,7 +30,7 @@
 	<string name="empty_bus_number">Enter Bus Number to Add</string>
 	<string name="duplicate_bus_number">Bus Already Arrived</string>
 
-	<string name="url_base">http://192.232.249.199/~hejeva/piguy.net/bustracker/</string>
+	<string name="url_base">http://bustracker-app.appspot.com/</string>
 	<string name="url_add_reg_id">add_reg_id.php</string>
 	<string name="url_get_schools">get_schools.php</string>
 	<string name="url_get_school_info">get_school_info.php</string>
