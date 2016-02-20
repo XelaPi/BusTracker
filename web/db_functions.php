@@ -15,7 +15,6 @@ function sendMessageThroughGCM($registration_ids, $message) {
             "content" => $fields,
         ),
         "ssl" => array(
-            "allow_self_signed" => true,
             "verify_peer" => false,
         ),
     );
