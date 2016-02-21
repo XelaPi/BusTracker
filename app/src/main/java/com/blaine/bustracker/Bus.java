@@ -14,8 +14,7 @@ public class Bus implements Parcelable {
 	private final String mNumber;
 
 	/**
-	 *
-	 * @param row Bus's row, zero-indexed integer
+	 * @param row    Bus's row, zero-indexed integer
 	 * @param number Bus number as a String
 	 */
 	public Bus(int row, String number) {
@@ -44,11 +43,11 @@ public class Bus implements Parcelable {
 
 	public static final Parcelable.Creator<Bus> CREATOR = new Parcelable.Creator<Bus>() {
 		public Bus createFromParcel(Parcel in) {
-		    return new Bus(in);
+			return new Bus(in);
 		}
 
 		public Bus[] newArray(int size) {
-		    return new Bus[size];
+			return new Bus[size];
 		}
 	};
 

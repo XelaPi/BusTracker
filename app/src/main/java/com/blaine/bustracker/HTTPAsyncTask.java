@@ -7,7 +7,13 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -26,10 +32,9 @@ class HTTPAsyncTask extends AsyncTask<String, Void, Boolean> {
 	private final String mMethod;
 
 	/**
-	 *
 	 * @param resources Resource object to call getString
-	 * @param url Url extension for specific request
-	 * @param method HTTP method, ex. "POST", "GET"
+	 * @param url       Url extension for specific request
+	 * @param method    HTTP method, ex. "POST", "GET"
 	 */
 	public HTTPAsyncTask(Resources resources, String url, String method) {
 		mResources = resources;
@@ -39,6 +44,7 @@ class HTTPAsyncTask extends AsyncTask<String, Void, Boolean> {
 
 	/**
 	 * Optional override by subclass, will be called on a successful HTTP request
+	 *
 	 * @param jsonObject Returned JSON from HTTP request
 	 * @throws JSONException
 	 */
@@ -68,6 +74,7 @@ class HTTPAsyncTask extends AsyncTask<String, Void, Boolean> {
 
 	/**
 	 * Utility method to make an HTTP request
+	 *
 	 * @param params Map of Key/Value pairs
 	 * @return JSONObject
 	 */

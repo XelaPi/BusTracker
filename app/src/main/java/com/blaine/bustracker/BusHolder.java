@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 public class BusHolder extends LinearLayout implements Checkable {
 
 	private static final int[] CHECKED_STATE_SET = {android.R.attr.state_checked};
-	private static final int[] FAVORITE_BUS_STATE_SET= {R.attr.state_favorite_bus};
+	private static final int[] FAVORITE_BUS_STATE_SET = {R.attr.state_favorite_bus};
 
 	private boolean mChecked = false;
 	private boolean mIsFavoriteBus = false;
@@ -29,7 +29,7 @@ public class BusHolder extends LinearLayout implements Checkable {
 
 	@Override
 	public void toggle() {
-		 setChecked(!mChecked);
+		setChecked(!mChecked);
 	}
 
 	public void setFavoriteBus(boolean isFavoriteBus) {

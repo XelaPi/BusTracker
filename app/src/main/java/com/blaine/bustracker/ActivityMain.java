@@ -1,13 +1,27 @@
 package com.blaine.bustracker;
 
 import android.app.Activity;
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -128,39 +142,39 @@ public class ActivityMain extends Activity implements SharedPreferences.OnShared
 		mBusGridView.setAdapter(mBusAdapter);
 
 		mBusUpdateReceiver = new BroadcastReceiver() {
-	        @Override
-	        public void onReceive(Context context, Intent intent) {
-		        int schoolID = Integer.parseInt(intent.getStringExtra(getString(R.string.key_school_id)));
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				int schoolID = Integer.parseInt(intent.getStringExtra(getString(R.string.key_school_id)));
 
-		        if (schoolID == mSchool.getID()) {
-			        String message = intent.getStringExtra(getString(R.string.key_message));
+				if (schoolID == mSchool.getID()) {
+					String message = intent.getStringExtra(getString(R.string.key_message));
 
-			        if (message.equals(getString(R.string.key_add_bus))) {
-				        final int row = Integer.parseInt(intent.getStringExtra(getString(R.string.key_bus_row)));
-				        final String busNumber = intent.getStringExtra(getString(R.string.key_bus_number));
-				        runOnUiThread(new Runnable() {
-					        public void run() {
-						        mBusAdapter.add(new Bus(row, busNumber));
-					        }
-				        });
-			        } else if (message.equals(getString(R.string.key_remove_bus))) {
-				        final int row = Integer.parseInt(intent.getStringExtra(getString(R.string.key_bus_row)));
-				        final String busNumber = intent.getStringExtra(getString(R.string.key_bus_number));
-				        runOnUiThread(new Runnable() {
-					        public void run() {
-						        mBusAdapter.remove(new Bus(row, busNumber));
-					        }
-				        });
-			        } else if (message.equals(getString(R.string.key_remove_all_buses))) {
-				        runOnUiThread(new Runnable() {
-					        public void run() {
-						        mBusAdapter.clear();
-					        }
-				        });
-			        }
-		        }
-	        }
-	    };
+					if (message.equals(getString(R.string.key_add_bus))) {
+						final int row = Integer.parseInt(intent.getStringExtra(getString(R.string.key_bus_row)));
+						final String busNumber = intent.getStringExtra(getString(R.string.key_bus_number));
+						runOnUiThread(new Runnable() {
+							public void run() {
+								mBusAdapter.add(new Bus(row, busNumber));
+							}
+						});
+					} else if (message.equals(getString(R.string.key_remove_bus))) {
+						final int row = Integer.parseInt(intent.getStringExtra(getString(R.string.key_bus_row)));
+						final String busNumber = intent.getStringExtra(getString(R.string.key_bus_number));
+						runOnUiThread(new Runnable() {
+							public void run() {
+								mBusAdapter.remove(new Bus(row, busNumber));
+							}
+						});
+					} else if (message.equals(getString(R.string.key_remove_all_buses))) {
+						runOnUiThread(new Runnable() {
+							public void run() {
+								mBusAdapter.clear();
+							}
+						});
+					}
+				}
+			}
+		};
 
 		// Initial HTTP request to get buses
 		// TODO: Add loading screen/spinner
@@ -208,29 +222,29 @@ public class ActivityMain extends Activity implements SharedPreferences.OnShared
 
 	@Override
 	protected void onDestroy() {
-	    LocalBroadcastManager.getInstance(this).unregisterReceiver(mBusUpdateReceiver);
-	    super.onDestroy();
+		LocalBroadcastManager.getInstance(this).unregisterReceiver(mBusUpdateReceiver);
+		super.onDestroy();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.menu_activity_main, menu);
-	    return super.onCreateOptionsMenu(menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_activity_main, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-		    // Launch login activity
-	        case R.id.action_login:
-		        Intent intent = new Intent(this, ActivityLogin.class);
-		        intent.putExtra(getString(R.string.key_school_id), mSchool.getID());
-		        startActivity(intent);
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
+		switch (item.getItemId()) {
+			// Launch login activity
+			case R.id.action_login:
+				Intent intent = new Intent(this, ActivityLogin.class);
+				intent.putExtra(getString(R.string.key_school_id), mSchool.getID());
+				startActivity(intent);
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 
 	public void searchForBus(View view) {

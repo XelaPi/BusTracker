@@ -63,11 +63,11 @@ public class GCMService extends GcmListenerService {
 		int position = Integer.valueOf(busPosition);
 		int mod100 = position % 100;
 		int mod10 = position % 10;
-		if(mod10 == 1 && mod100 != 11) {
+		if (mod10 == 1 && mod100 != 11) {
 			busPosition += "st";
-		} else if(mod10 == 2 && mod100 != 12) {
+		} else if (mod10 == 2 && mod100 != 12) {
 			busPosition += "nd";
-		} else if(mod10 == 3 && mod100 != 13) {
+		} else if (mod10 == 3 && mod100 != 13) {
 			busPosition += "rd";
 		} else {
 			busPosition += "th";
