@@ -23,6 +23,23 @@ if (!$school_id) {
 	?>
 	<meta name="description" content="See which school buses have arrived and where">
 </head>
+
+<<<<<<< Temporary merge branch 1
+<body>
+	<h1>Schools</h1>
+	<?php
+	$result = $db->getAllBuses($school_id);
+
+	if ($result["success"]) {
+		foreach ($result["schools"] as $school) {
+		echo "<a href=\"get_buses.php?_id=" . $school["_id"] . "\">" . $school["name"] . "</button>";
+		}
+	} else {
+		echo "<p>Failed to load buses</p>";
+	}
+	?>
+</body>
+=======
 	<body>
 		<h1>Schools</h1>
 		<?php
@@ -37,4 +54,5 @@ if (!$school_id) {
 		}
 		?>
 	</body>
+>>>>>>> Temporary merge branch 2
 </html>
