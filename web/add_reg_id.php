@@ -10,7 +10,7 @@ $result = $db->addRegId($gcmRegID);
 if ($result) {
 	$response["success"] = 1;
 } else {
-    $response["success"] = 0;
+	$response["success"] = 0;
 }
 
 echo json_encode($response);

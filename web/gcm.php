@@ -1,28 +1,27 @@
 <?php
-	
-	require_once __DIR__ . '/db_functions.php';
-	$db = new DB_FUNCTIONS();
-	
-	$pushStatus = "GCM Status Message will appear here";	
-	if(!empty($_GET["push"])) {
-		$number = $_POST["bus_number"];
-		$row = $_POST["bus_row"];
-		
-		if (empty($row)) {
-			$pushStatus = $db->addBus(1, $number);
-		} else {
-			$pushStatus = $db->addBusWithRow(1, $row, $number);
-		}
+require_once __DIR__ . '/db_functions.php';
+$db = new DB_FUNCTIONS();
+
+$pushStatus = "GCM Status Message will appear here";
+if(!empty($_GET["push"])) {
+	$number = $_POST["bus_number"];
+	$row = $_POST["bus_row"];
+
+	if (empty($row)) {
+		$pushStatus = $db->addBus(1, $number);
+	} else {
+		$pushStatus = $db->addBusWithRow(1, $row, $number);
 	}
-	
-	if(!empty($_GET["delete"])) {
-		$pushStatus = $db->removeAllBuses();
-	}
+}
+
+if(!empty($_GET["delete"])) {
+	$pushStatus = $db->removeAllBuses();
+}
 ?>
 
 <html>
-    <head>
-        <title>BusTracker PHP</title>
+	<head>
+		<title>BusTracker PHP</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script>
 		$(function(){
@@ -38,7 +37,7 @@
 			}
 		}
 		</script>
-    </head>
+	</head>
 	<body>
 		<div id="formdiv">
 		<h1>Bus Messaging</h1>	
@@ -52,12 +51,12 @@
 			<br/>
 			<input type="submit"  value="Add Bus"/>
 		</form>
-		<form method="post" action="gcm.php?delete=true">					                                                      
+		<form method="post" action="gcm.php?delete=true">
 				<input type="submit"  value="Remove All Buses"/>
 		</form>
 		</div>
 		<p id="status">
 		<?php echo $pushStatus; ?>
-		</p>        
-    </body>
+		</p>
+	</body>
 </html>

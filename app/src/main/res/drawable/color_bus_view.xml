@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res/com.blaine.bustracker">
+          xmlns:app="http://schemas.android.com/apk/res/com.blaine.bustracker">
 	<item android:state_checked="true" app:state_favorite_bus="true">
 		<shape android:shape="rectangle">
 			<solid
@@ -13,10 +13,10 @@
 	<item android:state_checked="true">
 		<shape android:shape="rectangle">
 			<solid
-				android:color="@color/yellow"/>
+					android:color="@color/yellow"/>
 			<stroke
-				android:width="2dp"
-			    android:color="@color/blue"/>
+					android:width="2dp"
+					android:color="@color/blue"/>
 		</shape>
 	</item>
 	<item android:drawable="@color/green" app:state_favorite_bus="true"/>
