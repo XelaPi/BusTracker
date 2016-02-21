@@ -9,42 +9,25 @@ if (!$school_id) {
 <!doctype html>
 
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta name="author" content="Alex Vanyo">
-	<?php
-	require_once __DIR__ . '/db_functions.php';
+	<head>
+		<meta charset="utf-8">
+		<meta name="author" content="Alex Vanyo">
+		<?php
+		require_once __DIR__ . '/db_functions.php';
+	
+		$db = new DB_FUNCTIONS();
 
-	$db = new DB_FUNCTIONS();
+		$school_info = $db->getSchoolInfo($school_id);
 
-	$school_info = $db->getSchoolInfo($school_id);
-
-	echo "<title>" . $school_info["name"] . "</title>"
-	?>
-	<meta name="description" content="See which school buses have arrived and where">
-</head>
-
-<<<<<<< Temporary merge branch 1
-<body>
-	<h1>Schools</h1>
-	<?php
-	$result = $db->getAllBuses($school_id);
-
-	if ($result["success"]) {
-		foreach ($result["schools"] as $school) {
-		echo "<a href=\"get_buses.php?_id=" . $school["_id"] . "\">" . $school["name"] . "</button>";
-		}
-	} else {
-		echo "<p>Failed to load buses</p>";
-	}
-	?>
-</body>
-=======
+		echo "<title>" . $school_info["name"] . "</title>"
+		?>
+		<meta name="description" content="See which school buses have arrived and where">
+	</head>
 	<body>
 		<h1>Schools</h1>
 		<?php
 		$result = $db->getAllBuses($school_id);
-	
+
 		if ($result["success"]) {
 			foreach ($result["schools"] as $school) {
 			echo "<a href=\"get_buses.php?_id=" . $school["_id"] . "\">" . $school["name"] . "</button>";
@@ -54,5 +37,4 @@ if (!$school_id) {
 		}
 		?>
 	</body>
->>>>>>> Temporary merge branch 2
 </html>
