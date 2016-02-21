@@ -2,7 +2,7 @@
 $school_id = $_GET["_id"];
 
 if (!$school_id) {
-header("Location: index.php");
+	header("Location: index.php");
 }
 ?>
 
@@ -23,12 +23,11 @@ header("Location: index.php");
 	?>
 	<meta name="description" content="See which school buses have arrived and where">
 </head>
-
 	<body>
 		<h1>Schools</h1>
 		<?php
 		$result = $db->getAllBuses($school_id);
-
+	
 		if ($result["success"]) {
 			foreach ($result["schools"] as $school) {
 			echo "<a href=\"get_buses.php?_id=" . $school["_id"] . "\">" . $school["name"] . "</button>";
