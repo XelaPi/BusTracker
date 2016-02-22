@@ -3,8 +3,6 @@ $response = array();
 
 require_once __DIR__ . '/db_functions.php';
 
-$response = array();
-
 $db = new DB_FUNCTIONS();
 
 $result = $db->getAllSchools();
