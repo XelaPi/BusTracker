@@ -13,6 +13,8 @@ if (!$school_id) {
 		<meta charset="utf-8">
 		<meta name="author" content="Alex Vanyo">
 		<?php
+		$buses = array();
+
 		require_once __DIR__ . '/db_functions.php';
 	
 		$db = new DB_FUNCTIONS();
@@ -24,14 +26,51 @@ if (!$school_id) {
 		<meta name="description" content="See which school buses have arrived and where">
 	</head>
 	<body>
-		<h1>Schools</h1>
 		<?php
+		echo "<h1>" . $school_info["name"] . "</h1>";
+
 		$result = $db->getAllBuses($school_id);
 
-		if ($result["success"]) {
-			foreach ($result["schools"] as $school) {
-			echo "<a href=\"get_buses.php?_id=" . $school["_id"] . "\">" . $school["name"] . "</button>";
+		if (mysql_num_rows($result) > 0) {
+			echo "<table>";
+			
+			echo "<tr>";
+			$row_names = explode(";", $school_info["row_names"]);
+
+			for ($i = 0; $i < $school_info["rows"]; $i++) {
+				$buses[$i] = array();
+
+				echo "<th>" . $row_names[$i] . "</th>";
 			}
+			echo "</tr>";
+			
+			while ($bus = mysql_fetch_array($result)) {
+				array_push($buses[$bus["row"]], $bus["number"]);
+			}
+
+			$largest_row = 0;
+
+			foreach ($buses as $row) {
+				if (count($row) > $largest_row) {
+					$largest_row = count($row);
+				}
+			}
+
+			for ($i = 0; $i < $largest_row; $i++) {
+				echo "<tr>";
+
+                foreach ($buses as $row) {
+                    if ($row[$i]) {
+                        echo "<td>" . $row[$i] . "</td>";
+                    } else {
+                        echo "<td/>";
+                    }
+                }
+
+                echo "</tr>";
+			}
+			
+			echo "</table>";
 		} else {
 			echo "<p>Failed to load buses</p>";
 		}

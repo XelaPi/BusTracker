@@ -22,7 +22,7 @@
 
 	if ($result) {
 		while ($school = mysql_fetch_array($result)) {
-            echo "<a href=\"get_buses.php?_id=" . $school["_id"] . "\">" . $school["name"] . "</button>";
+            echo "<a href=\"school.php?_id=" . $school["_id"] . "\">" . $school["name"] . "</button>";
         }
 	} else {
 		echo "<p>Failed to load buses</p>";
