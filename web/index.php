@@ -20,10 +20,10 @@
 	<?php
 	$result = $db->getAllSchools();
 
-	if ($result["success"]) {
-		foreach ($result["schools"] as $school) {
-		echo "<a href=\"get_buses.php?_id=" . $school["_id"] . "\">" . $school["name"] . "</button>";
-		}
+	if ($result) {
+		while ($school = mysql_fetch_array($result)) {
+            echo "<a href=\"get_buses.php?_id=" . $school["_id"] . "\">" . $school["name"] . "</button>";
+        }
 	} else {
 		echo "<p>Failed to load buses</p>";
 	}
