@@ -37,7 +37,7 @@
 				<category android:name="android.intent.category.BROWSABLE"/>
 
 				<data android:scheme="http"/>
-				<data android:host="www.piguy.net/bustracker"/>
+				<data android:host="bustracker-app.appspot.com"/>
 			</intent-filter>
 		</activity>
 		<activity
