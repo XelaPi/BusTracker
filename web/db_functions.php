@@ -1,8 +1,5 @@
 <?php
 
-//header('Content-Type: text/event-stream');
-//header('Cache-Control: no-cache');
-
 class DB_FUNCTIONS {
 
 	private $db;
@@ -34,9 +31,6 @@ class DB_FUNCTIONS {
 		);
 		$arrContextOptions = stream_context_create($arrContextOptions);
 		$result = file_get_contents('https://gcm-http.googleapis.com/gcm/send', false, $arrContextOptions);
-
-	    //echo $fields;
-	    //flush();
 
 		return $result;
 	}
