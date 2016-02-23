@@ -24,6 +24,15 @@ if (!$school_id) {
 		echo "<title>" . $school_info["name"] . "</title>"
 		?>
 		<meta name="description" content="See which school buses have arrived and where">
+
+		<script>
+		if(typeof(EventSource)!=="undefined") {
+        	var eSource = new EventSource("db_functions.php");
+        	eSource.onmessage = function(event) {
+        		document.getElementById("test").innerHTML = event;
+        	};
+        }
+		</script>
 	</head>
 	<body>
 		<?php
@@ -75,5 +84,7 @@ if (!$school_id) {
 			echo "<p>Failed to load buses</p>";
 		}
 		?>
+
+		<p id="test">Server updates appear here</p>
 	</body>
 </html>

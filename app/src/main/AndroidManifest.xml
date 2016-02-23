@@ -13,7 +13,6 @@
 			android:protectionLevel="signature"/>
 
 	<uses-permission android:name="com.blaine.bustracker.permission.C2D_MESSAGE"/>
-	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
 	<application
@@ -77,7 +76,8 @@
 
 		<receiver
 				android:name="com.google.android.gms.gcm.GcmReceiver"
-				android:permission="com.google.android.c2dm.permission.SEND">
+				android:permission="com.google.android.c2dm.permission.SEND"
+				android:exported="true">
 
 			<intent-filter>
 				<action android:name="com.google.android.c2dm.intent.RECEIVE"/>

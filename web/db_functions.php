@@ -1,31 +1,10 @@
 <?php
 
-function sendMessageThroughGCM($registration_ids, $message) {
-	$fields = array(
-		'registration_ids' => $registration_ids,
-		'data' => $message,
-	);
-	$fields = json_encode($fields);
-	$arrContextOptions = array(
-		"http" => array(
-			"method" => "POST",
-			"header" =>
-				'Authorization: key = AIzaSyD2TpBIlbAdT0F2y-eWIUwOVq2Y_neaVpM'. "\r\n" .
-				'Content-Type: application/json'. "\r\n",
-			"content" => $fields,
-		),
-		"ssl" => array(
-			"verify_peer" => false,
-		),
-	);
-	$arrContextOptions = stream_context_create($arrContextOptions);
-	$result = file_get_contents('https://android.googleapis.com/gcm/send', false, $arrContextOptions);
-
-	return $result;
-}
+//header('Content-Type: text/event-stream');
+//header('Cache-Control: no-cache');
 
 class DB_FUNCTIONS {
- 
+
 	private $db;
 	
 	function __construct() {
@@ -36,6 +15,30 @@ class DB_FUNCTIONS {
 
 	function __destruct() {
 
+	}
+
+	function sendMessage($message) {
+		$fields = array(
+			'registration_ids' => $this->getAllRegIds(),
+			'data' => $message,
+		);
+		$fields = json_encode($fields);
+		$arrContextOptions = array(
+			"http" => array(
+				"method" => "POST",
+				"header" =>
+					'Authorization: key = AIzaSyD2TpBIlbAdT0F2y-eWIUwOVq2Y_neaVpM'. "\r\n" .
+					'Content-Type: application/json'. "\r\n",
+				"content" => $fields,
+			),
+		);
+		$arrContextOptions = stream_context_create($arrContextOptions);
+		$result = file_get_contents('https://gcm-http.googleapis.com/gcm/send', false, $arrContextOptions);
+
+	    //echo $fields;
+	    //flush();
+
+		return $result;
 	}
 
 	public function getRow($id, $number) {
@@ -58,15 +61,15 @@ class DB_FUNCTIONS {
 	}
 
 	public function getAllRegIds() {
-			$query = sprintf("SELECT * FROM reg_ids");
+		$query = sprintf("SELECT * FROM reg_ids");
 
 		$result = mysql_query($query);
 
-			$gcmRegIds = array();
+		$gcmRegIds = array();
 
-			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-				array_push($gcmRegIds, $row["reg_id"]);
-			}
+		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+			array_push($gcmRegIds, $row["reg_id"]);
+		}
 
 		return $gcmRegIds;
 	}
@@ -96,7 +99,7 @@ class DB_FUNCTIONS {
 				"bus_number" => $number,
 				"position" => $position
 			);
-			$response = sendMessageThroughGCM($this->getAllRegIds(), $message);
+			$response = $this->sendMessage($message);
 		}
 
 		return $response;
@@ -130,7 +133,7 @@ class DB_FUNCTIONS {
 				"message" => "remove_all_buses",
 				"_id" => $id
 			);
-			$response = sendMessageThroughGCM($this->getAllRegIds(), $message);
+			$response = $this->sendMessage($message);
 		}
 
 		return $response;
@@ -149,7 +152,7 @@ class DB_FUNCTIONS {
 			"bus_row" => $row,
 				"bus_number" => $number
 			);
-			$response = sendMessageThroughGCM($this->getAllRegIds(), $message);
+			$response = $this->sendMessage($message);
 		}
 
 		return $response;
