@@ -21,12 +21,15 @@
 	$result = $db->getAllSchools();
 
 	if ($result) {
+	    echo "<ul>";
 		while ($school = mysql_fetch_array($result)) {
-            echo "<a href=\"school.php?_id=" . $school["_id"] . "\">" . $school["name"] . "</button>";
+            echo "<li><a href=\"school.php?_id=" . $school["_id"] . "\">" . $school["name"] . "</a></li>";
         }
+        echo "</ul>";
 	} else {
 		echo "<p>Failed to load buses</p>";
 	}
 	?>
+	<p><a href="bustracker.apk">Get the Android app</a></p>
 </body>
 </html>
