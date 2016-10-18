@@ -24,7 +24,7 @@ class DB_FUNCTIONS {
 			"http" => array(
 				"method" => "POST",
 				"header" =>
-					'Authorization: key = AIzaSyD2TpBIlbAdT0F2y-eWIUwOVq2Y_neaVpM'. "\r\n" .
+					'Authorization: key = ' . GCM_KEY . "\r\n" .
 					'Content-Type: application/json'. "\r\n",
 				"content" => $fields,
 			),
