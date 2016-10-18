@@ -1,5 +1,3 @@
-application: bustracker-app
-version: 2
 runtime: php55
 api_version: 1
 
@@ -7,6 +5,10 @@ handlers:
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon.ico
+
+- url: /bustracker\.apk
+  static_files: bustracker.apk
+  upload: bustracker.apk
 
 - url: /(.+\.php)$
   script: \1
