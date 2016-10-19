@@ -9,13 +9,13 @@ $row = $_POST["bus_row"];
 $number = $_POST["bus_number"];
 
 if ($_POST["password"] == $db->getSchoolInfo($id)["password"]) {
-	$result = $db->removeBus($id, $row, $number);
-	
-	$response["success"] = 1;
-	$response["message"] = "Bus Removed: " . $result;
+    $result = $db->removeBus($id, $row, $number);
+
+    $response["success"] = 1;
+    $response["message"] = "Bus Removed: " . $result;
 } else {
-	$response["success"] = 0;
-	$response["message"] = "Invalid Password";
+    $response["success"] = 0;
+    $response["message"] = "Invalid Password";
 }
 
 echo json_encode($response);

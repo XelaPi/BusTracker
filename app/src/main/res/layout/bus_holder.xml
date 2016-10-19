@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.blaine.bustracker.BusHolder xmlns:android="http://schemas.android.com/apk/res/android"
-                                 android:layout_width="match_parent"
-                                 android:layout_height="wrap_content"
-                                 android:orientation="horizontal"
-                                 android:clickable="true"
-                                 android:onClick="busClick"
-		>
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:clickable="true"
+    android:onClick="busClick">
 
-	<TextView
-			android:id="@+id/index_view"
-			android:layout_width="20dp"
-			android:layout_height="wrap_content"
-			android:layout_marginEnd="5dp"
-			android:layout_marginRight="5dp"
-			android:gravity="center"
-			/>
+    <TextView
+        android:id="@+id/index_view"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="center" />
 
-	<TextView
-			android:id="@+id/bus_view"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:padding="5dp"
-			android:gravity="center"
-			android:textColor="@color/black"
-			android:duplicateParentState="true"
-			android:background="@drawable/color_bus_view"
-			/>
+    <TextView
+        android:id="@+id/bus_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:duplicateParentState="true"
+        android:background="@drawable/color_bus_view" />
 
 </com.blaine.bustracker.BusHolder>
